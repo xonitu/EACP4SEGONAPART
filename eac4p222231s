@@ -86,11 +86,8 @@ public class EAC4P222231S {
 
 		posicio = obtenirFilaPerDniDonatBaixa(registre, ficoDni);
 
-		System.out.println("Aquest usuari, esta a la posicio; " + posicio);
-
-		if (posicio == REG_INEXISTENT || registre[posicio][ID_DATA_BAIXA] != "") {
-
-			// posicio = trobaBuit(registre);
+		if (registre[posicio][ID_DATA_BAIXA] != "") {
+			System.out.println("Aquest usuari, esta a la posicio; " + posicio);
 			registre[posicio][ID_DATA_BAIXA] = esborroBaixa;
 			System.out.println("Introdueix nova data alta;");
 			novaDataAlta = lector.nextLine();
@@ -98,11 +95,21 @@ public class EAC4P222231S {
 			System.out.println("_________________________________________");
 			System.out.println("REGISTRE ACTUALITZAT;");
 			System.out.println(registre[posicio][ID_USUARI]);
-
-		}else if (registre[posicio][ID_DATA_BAIXA] == ""){
-			posicio=obtenirFilaPerDniUsuariActiu(registre,ficoDni);
-			System.out.println("Aquest usuari,"+registre[posicio][ID_USUARI]+ "ja esta donat d'alta");
-			noloEncuentra = false;
+		}
+		// ___________________________________________________
+		// ME PETA ESTO
+		// ME PETA ESTO
+		else if (registre[posicio][ID_DATA_BAIXA] == "") {
+			posicio = obtenirFilaPerDniUsuariActiu(registre, ficoDni);
+			System.out.println("Aquest usuari," + registre[posicio][ID_USUARI] + "ja esta donat d'alta");
+			noloEncuentra = true;
+			lector.nextLine();
+			// _______________________________________________________________________
+			// _______________________________________________________________________
+			// _______________________________________________________________________
+		} else {
+			System.out.print("No existeix usuari introduit");
+			noloEncuentra = true;
 			lector.nextLine();
 		}
 	}
@@ -138,21 +145,15 @@ public class EAC4P222231S {
 		dni = lector.nextLine();
 		posicio = obtenirFilaPerDniUsuariActiu(registre, dni);
 
-
-
-		// ___________________________________________
-		// AIXO EM PETA
-		// AIXO  ho tenia per imprimir i petava; registre[posicio][ID_DNI] + 
-		// TEORICAMENT ES PER A REBUTJAR DNI QUE JA ESTIGUI DONAT DE BAIXA.
 		if (posicio == REG_INEXISTENT) {
-			posicio=obtenirFilaPerDniDonatBaixa(registre, dni);
-			System.out.println(" Aquest usuari ja esta donat de baixa;  "+ registre[posicio][ID_USUARI]+" data baixa; "+registre[posicio][ID_DATA_BAIXA]);
+			posicio = obtenirFilaPerDniDonatBaixa(registre, dni);
+			System.out.println(" Aquest usuari ja esta donat de baixa;  " + registre[posicio][ID_USUARI]
+					+ " data baixa; " + registre[posicio][ID_DATA_BAIXA]);
 			System.out.println(" :::::::::::::::::::: ");
 			System.out.println(" ENTER PER CONTINUAR ");
 			System.out.println(" :::::::::::::::::::: ");
 			lector.nextLine();
 			trobat = false;
-			// ____________________________
 
 		} else {
 			System.out.println("_________________________________");
