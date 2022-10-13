@@ -2,7 +2,7 @@ package eac4p222231s;
 
 import java.util.Scanner;
 
-public class EAC4P222231S {
+public class EAC4P222231S2 {
 
 	static final int ID_USUARI = 0;
 	static final int ID_DNI = 1;
@@ -12,22 +12,22 @@ public class EAC4P222231S {
 	Scanner lector = new Scanner(System.in);
 
 	public static void main(String[] args) {
-		EAC4P222231S prg = new EAC4P222231S();
+		EAC4P222231S2 prg = new EAC4P222231S2();
 		prg.inici();
 	}
 
 	void inici() {
 		String[][] registre = {
 				// usuari NIF DATA_ALTA DATA_BAIXA
-				{ "rgalvez", "44821635K", "02/01/2020", "" }, { "jpuig", "11222333A", "10/02/2020", "10/05/2020" },
+				{ "rgalvez", "44821635K", "02/01/2020", "ddd" }, { "jpuig", "11222333A", "10/02/2020", "10/05/2020" },
 				{ "rsoto", "46821635K", "15/02/2020", "15/05/2020" },
 				{ "agarcia", "43821635K", "20/02/2020", "20/02/2021" },
-				{ "fgarcia", "34985423A", "25/03/2020", "25/09/2020" }, { "rsoto", "45821635K", "01/04/2021", "" },
-				{ "jpuig", "11222333A", "15/04/2021", "" }, { "ralonso", "22333444B", "10/05/2021", "" },
+				{ "fgarcia", "34985423A", "25/03/2020", "25/09/2020" }, { "rsoto", "45821635K", "01/04/2021", "dddd" },
+				{ "jpuig", "11222333A", "15/04/2021", "ddddd" }, { "ralonso", "22333444B", "10/05/2021", "dddd" },
 				{ "fgarcia", "34985423A", "01/06/2021", "30/09/2021" },
 				{ "efuster", "33444555C", "08/06/2021", "08/10/2021" },
 				{ "sfont", "44555666D", "10/06/2021", "10/11/2021" }, { "msoler", "55666777E", "15/06/2021", "" },
-				{ "efuster", "33444555C", "01/02/2022", "" }, { "sferrer", "66777888F", "10/02/2022", "" },
+				{ "efuster", "33444555C", "01/02/2022", "dddd" }, { "sferrer", "66777888F", "10/02/2022", "" },
 				{ "jcasas", "77888999G", "01/03/2022", "" }, { "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" },
 				{ "", "", "", "" }, { "", "", "", "" }, { "", "", "", "" } };
 
@@ -38,7 +38,7 @@ public class EAC4P222231S {
 			System.out.println("1. Reactivar un usuari");
 			System.out.println("2. Donar de baixa un usuari");
 			System.out.println("3. Mostrar registre");
-			System.out.println("0. Sortir de l'aplicació");
+			System.out.println("0. Sortir de l'aplicacio");
 			opcio = demanarOpcioMenu();
 			switch (opcio) {
 			case '1':
@@ -58,7 +58,7 @@ public class EAC4P222231S {
 
 	char demanarOpcioMenu() {
 		String resp;
-		System.out.print("Esculliu una opció (1,2,3 o 0) i premeu [ENTRAR]: ");
+		System.out.print("Esculliu una opcio (1,2,3 o 0) i premeu [ENTRAR]: ");
 		resp = lector.nextLine();
 		if (resp.isEmpty()) {
 			resp = " ";
@@ -67,51 +67,57 @@ public class EAC4P222231S {
 	}
 
 	/**
-	 * Mètode que realitza l'assignacio d'un dispositiu a una persona
+	 * MÃ¨tode que realitza l'assignacio d'un dispositiu a una persona
 	 *
 	 * @param registre
 	 */
-	// REACTIVAR O INTRODUIR NOU USUARI
+	// REACTIVAR USUARI
 	void reactivarUsuariDeBaixa(String[][] registre) {
-
-		int posicio = 0;
-		boolean noloEncuentra = false;
-
-		String ficoDni = "";
-		String esborroBaixa = "ACTIVAT";
-		String novaDataAlta = "";
+		boolean trobat = false;
 
 		System.out.println("Fica DNI que vulguis reactivar");
-		ficoDni = lector.nextLine();
+		String ficoDni = lector.nextLine();
 
-		posicio = obtenirFilaPerDniDonatBaixa(registre, ficoDni);
+		int posicio = obtenirFilaPerDniUsuariActiu(registre, ficoDni);
 
-		if (registre[posicio][ID_DATA_BAIXA] != "") {
-			System.out.println("Aquest usuari, esta a la posicio; " + posicio);
-			registre[posicio][ID_DATA_BAIXA] = esborroBaixa;
+		if (posicio != REG_INEXISTENT) {
+			System.out.println(
+					"Aquest usuari, " + registre[posicio][ID_USUARI] + ", esta actiu a la posicio; " + posicio);
+			return;
+		} else {
+			posicio = obtenirFilaPerDniDonatBaixa(registre, ficoDni);
+			
+		}
+		int posicioBuida = trobaBuit(registre);
+		if (posicioBuida != REG_INEXISTENT && registre[20][ID_DNI] == "") {
+
 			System.out.println("Introdueix nova data alta;");
-			novaDataAlta = lector.nextLine();
-			registre[posicio][ID_DATA_ALTA] = novaDataAlta;
+			String novaDataAlta = lector.nextLine();
+
+			registre[posicioBuida][ID_USUARI] = registre[posicio][ID_USUARI];
+			registre[posicioBuida][ID_DNI] = registre[posicio][ID_DNI];
+			registre[posicioBuida][ID_DATA_ALTA] = novaDataAlta;
+			registre[posicioBuida][ID_DATA_BAIXA] = "";
+
 			System.out.println("_________________________________________");
 			System.out.println("REGISTRE ACTUALITZAT;");
-			System.out.println(registre[posicio][ID_USUARI]);
-		}
-		// ___________________________________________________
-		// ME PETA ESTO
-		// ME PETA ESTO
-		else if (registre[posicio][ID_DATA_BAIXA] == "") {
-			posicio = obtenirFilaPerDniUsuariActiu(registre, ficoDni);
-			System.out.println("Aquest usuari," + registre[posicio][ID_USUARI] + "ja esta donat d'alta");
-			noloEncuentra = true;
+			System.out.println("Usuari\tDni\t\tAlta\t\tBaixa");
+			System.out.println("\n" + registre[posicio][ID_USUARI] + "\t" + registre[posicio][ID_DNI] + "\t"
+					+ novaDataAlta + "\t" + registre[posicioBuida][ID_DATA_BAIXA]);
+
+		} if (registre[20][ID_DNI] != "") {
+
+			System.out.println("No hi ha espai per a mes files");
+			trobat = true;
 			lector.nextLine();
-			// _______________________________________________________________________
-			// _______________________________________________________________________
-			// _______________________________________________________________________
-		} else {
-			System.out.print("No existeix usuari introduit");
-			noloEncuentra = true;
+			return;
+		}else if (posicio == REG_INEXISTENT){
+			System.out.println("No existeix");
+			trobat = false;
 			lector.nextLine();
+			return;
 		}
+
 	}
 
 //TROBA LA PRIMERA FILA TOTALMENT BUIDA PER AFEGIR USERS
@@ -130,8 +136,8 @@ public class EAC4P222231S {
 	}
 
 	/**
-	 * * Mètode que realitza la cancel·lació de l'assignació d'un dispositiu a una
-	 * personarva
+	 * * MÃ¨tode que realitza la cancelÂ·laciÃ³ de l'assignaciÃ³ d'un dispositiu a
+	 * una personarva
 	 *
 	 * @param registre
 	 */
@@ -154,8 +160,8 @@ public class EAC4P222231S {
 			System.out.println(" :::::::::::::::::::: ");
 			lector.nextLine();
 			trobat = false;
-
-		} else {
+		}
+		if (posicio != REG_INEXISTENT) {
 			System.out.println("_________________________________");
 			System.out.println(registre[posicio][ID_USUARI]);
 			System.out.println("Ultim dni registrat a la posicio " + posicio);
@@ -164,27 +170,30 @@ public class EAC4P222231S {
 			ficoBaixa = lector.nextLine();
 			registre[posicio][ID_DATA_BAIXA] = ficoBaixa;
 
-			mostrarRegistre(registre);
-
+			// Si fiquem un dni que no existeix, neteja buffer
+		//No funciona correctament control errors
+		} else{
+			System.out.println("No existeix");
+			lector.nextLine();
+			return;
 		}
 	}
 
 	/**
-	 * Mètode que mostra el registre
+	 * MÃ¨tode que mostra el registre
 	 *
 	 * @param registre
 	 */
 	void mostrarRegistre(String[][] registre) {
-		System.out.print("Usuari\tDni\t\tAlta\t\tBaixa");
-		for (int fila = 0; fila < registre.length; fila++) {
-			System.out.print("\n" + registre[fila][ID_USUARI] + "\t" + registre[fila][ID_DNI] + "\t"
-					+ registre[fila][ID_DATA_ALTA] + "\t" + registre[fila][ID_DATA_BAIXA]);
+		System.out.format("%-15s%-15s%-15s%-15s%n", "Usuari", "Dni", "Alta", "Baixa");
+		for (String[] dades : registre) {
+			System.out.format("%-15s%-15s%-15s%-15s%n", (Object[]) dades);
 		}
-		System.out.println("");
+
 	}
 
 	/**
-	 * Mètode que obtè la fila dins de l'array un dni en actiu
+	 * MÃ¨tode que obtÃ¨ la fila dins de l'array un dni en actiu
 	 *
 	 * @param registre
 	 * @param dni
@@ -208,7 +217,7 @@ public class EAC4P222231S {
 	}
 
 	/**
-	 * Mètode que obtè l'usuari d'una fila dins del registre
+	 * MÃ¨tode que obtÃ¨ l'usuari d'una fila dins del registre
 	 *
 	 * @param registre
 	 * @param fila
@@ -222,13 +231,13 @@ public class EAC4P222231S {
 	}
 
 	/**
-	 * Mètode que obtè la fila dins de l'array un dni donat de baixa
+	 * MÃ¨tode que obtÃ¨ la fila dins de l'array un dni donat de baixa
 	 *
 	 * @param registre
 	 * @param dni
 	 * @return
 	 */
-	// HO TINC CRIDAT MES AMUNT
+
 	int obtenirFilaPerDniDonatBaixa(String[][] registre, String dni) {
 		boolean trobat = false;
 		int posicio = 0;
@@ -245,4 +254,5 @@ public class EAC4P222231S {
 			return REG_INEXISTENT;
 		}
 	}
+
 }
