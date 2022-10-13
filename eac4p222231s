@@ -86,7 +86,7 @@ public class EAC4P222231S2 {
 			return;
 		} else {
 			posicio = obtenirFilaPerDniDonatBaixa(registre, ficoDni);
-			
+
 		}
 		int posicioBuida = trobaBuit(registre);
 		if (posicioBuida != REG_INEXISTENT && registre[20][ID_DNI] == "") {
@@ -105,13 +105,14 @@ public class EAC4P222231S2 {
 			System.out.println("\n" + registre[posicio][ID_USUARI] + "\t" + registre[posicio][ID_DNI] + "\t"
 					+ novaDataAlta + "\t" + registre[posicioBuida][ID_DATA_BAIXA]);
 
-		} if (registre[20][ID_DNI] != "") {
+		}
+		if (registre[20][ID_DNI] != "") {
 
 			System.out.println("No hi ha espai per a mes files");
 			trobat = true;
 			lector.nextLine();
 			return;
-		}else if (posicio == REG_INEXISTENT){
+		} else if (posicio == REG_INEXISTENT) {
 			System.out.println("No existeix");
 			trobat = false;
 			lector.nextLine();
@@ -160,8 +161,7 @@ public class EAC4P222231S2 {
 			System.out.println(" :::::::::::::::::::: ");
 			lector.nextLine();
 			trobat = false;
-		}
-		if (posicio != REG_INEXISTENT) {
+		} else {
 			System.out.println("_________________________________");
 			System.out.println(registre[posicio][ID_USUARI]);
 			System.out.println("Ultim dni registrat a la posicio " + posicio);
@@ -171,8 +171,9 @@ public class EAC4P222231S2 {
 			registre[posicio][ID_DATA_BAIXA] = ficoBaixa;
 
 			// Si fiquem un dni que no existeix, neteja buffer
-		//No funciona correctament control errors
-		} else{
+			// No funciona correctament control errors
+		}
+		if (posicio == REG_INEXISTENT) {
 			System.out.println("No existeix");
 			lector.nextLine();
 			return;
