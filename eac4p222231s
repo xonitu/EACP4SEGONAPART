@@ -112,6 +112,9 @@ public class EAC4P222231S2 {
 			trobat = true;
 			lector.nextLine();
 			return;
+//HELLOOUUUU
+//prueba añadir a condición && ficoDni != registre[posicio][ID_DNI]
+//TUUURRRSAAA
 		} else if (posicio == REG_INEXISTENT) {
 			System.out.println("No existeix");
 			trobat = false;
